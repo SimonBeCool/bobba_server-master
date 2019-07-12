@@ -188,7 +188,7 @@ public class Game {
     
     
     public static void changeItemPosition(int id, int x, int y, int rotation, BaseItem item) {
-    	room.getRoomItemManager().addItemToRoom(id, x, y, item.getZ(), rotation, item.getStates(), item);
+    	room.getRoomItemManager().addFloorItemToRoom(id, x, y, item.getZ(), rotation, item.getStates(), item);
     }
     
     public static void addToInv(int id, int baseid, int state) {
