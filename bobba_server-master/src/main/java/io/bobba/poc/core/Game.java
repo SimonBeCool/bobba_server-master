@@ -187,14 +187,6 @@ public class Game {
     }
     
     
-    public static void changeItemPosition(int id, int x, int y, int rotation, BaseItem item) {
-    	room.getRoomItemManager().addFloorItemToRoom(id, x, y, item.getZ(), rotation, item.getStates(), item);
-    }
-    
-    public static void addToInv(int id, int baseid, int state) {
-    	room.sendMessage(new InventarComposer(id, baseid, state));
-    }
-    
     public static void Inventar() {	
     	BaseItem club_sofa = itemManager.addRoomItem(baseItemId++, 267, 2, 1, 1.0, "club_sofa", 1, false, false, true, Arrays.asList(0, 2, 4, 6));
         BaseItem lt_patch = itemManager.addRoomItem(baseItemId++, 3188, 2, 2, 0.01, "lt_patch", 3, false, true, false, Arrays.asList(0, 2, 4, 6));
@@ -226,13 +218,12 @@ public class Game {
         
         BaseItem scifirocket3 = itemManager.addRoomItem(baseItemId++, 1565, 1, 1, 0, "scifirocket*3", 2, false, false, false, Arrays.asList(0));
         
-        
-        
         // FloorItems
-    	room.getRoomItemManager().addItemsFromInventory(itemId++, 2, 0, 0.0, rare_dragon_5.getDirections().get(0), 0, rare_dragon_5);
-    	room.getRoomItemManager().addItemsFromInventory(itemId++, 2, 0, 0.0, club_sofa.getDirections().get(0), 0, club_sofa);
-    	room.getRoomItemManager().addItemsFromInventory(itemId++, 2, 0, 0.0, club_sofa.getDirections().get(0), 0, club_sofa);
-    	room.getRoomItemManager().addItemsFromInventory(itemId++, 2, 0, 0.0, club_sofa.getDirections().get(0), 0, club_sofa);
+    	room.getRoomItemManager().InventoryItem(itemId++, 2, 0, 0.0, rare_dragon_5.getDirections().get(0), 0, rare_dragon_5, "F");
+    	
+    	room.getRoomItemManager().InventoryItem(itemId++, 2, 0, 0.0, club_sofa.getDirections().get(0), 0, club_sofa, "F");
+    	room.getRoomItemManager().InventoryItem(itemId++, 2, 0, 0.0, club_sofa.getDirections().get(0), 0, club_sofa, "F");
+    	room.getRoomItemManager().InventoryItem(itemId++, 2, 0, 0.0, club_sofa.getDirections().get(0), 0, club_sofa, "F");
 
     	// WallItems
     	

@@ -14,10 +14,11 @@ public class RequestUserLook implements IIncomingEvent {
         
         Room room = client.getUser().getCurrentRoom();
         RoomUser user = client.getUser().getCurrentRoomUser();
-        
-        System.out.print(look);
-        
-        user.setLook(look);
-        room.sendMessage(new SerializeRoomUserComposer(user));
-    }
+        if(user != null) {
+        	user.setLook(look);
+        	room.sendMessage(new SerializeRoomUserComposer(user));
+        } else {
+        	System.out.print("ERROR: USER IS NULL");
+        }
+     }
 }

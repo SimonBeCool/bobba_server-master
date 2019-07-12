@@ -44,7 +44,7 @@ public class User {
     }
 
     public void setLook(String look) {
-        this.look = look;
+         this.look = look;
     }
     
     public String motto() {

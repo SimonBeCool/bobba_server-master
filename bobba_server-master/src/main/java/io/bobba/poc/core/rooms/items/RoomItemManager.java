@@ -49,18 +49,33 @@ public class RoomItemManager {
     }
     
     
-    // ADD ITEM TO FLOOR
+    // ADD ITEM TO FLOOR OR WALL
     
     public void addTo(int id, int x, int y, int rotation) {
    	 	RoomItem item = getItem(id);
    	 	if (item == null) {
-	 		room.getRoomItemManager().addFloorItemToRoom(id, x, y, item.getZ(), rotation, item.getState(), item.getBaseItem());
+   	 		if(item instanceof WallItem) {
+   	 			System.out.print("WAND 1");
+   	 			room.getRoomItemManager().addWallItemToRoom(id, x, y, rotation, item.getState(), item.getBaseItem());
+   	 		} else {
+   	 			System.out.print("BODEN 1");
+   	 			room.getRoomItemManager().addFloorItemToRoom(id, x, y, item.getZ(), rotation, item.getState(), item.getBaseItem());
+   	 		}
 	 	}
    	 	if (item != null) {
-   	 		room.getRoomItemManager().InvRemove(id);
-   	 		room.getRoomItemManager().addFloorItemToRoom(id, x, y, item.getZ(), rotation, item.getState(), item.getBaseItem());
+   	 		if(item instanceof WallItem) {
+   	 			System.out.print("WAND 2");
+   	 			room.getRoomItemManager().InvRemove(id);
+   	 			room.getRoomItemManager().addWallItemToRoom(id, x, y, rotation, item.getState(), item.getBaseItem());
+	 		} else {
+	 			System.out.print("BODEN 2");
+	 			room.getRoomItemManager().InvRemove(id);
+	 			room.getRoomItemManager().addFloorItemToRoom(id, x, y, item.getZ(), rotation, item.getState(), item.getBaseItem());
+	 		}
    	 	}
     }
+    
+    // ADD FLOOR ITEM
     
     public void addFloorItemToRoom(int id, int x, int y, double z, int rot, int state, BaseItem baseItem) {
     	if (getItem(id) == null) {
@@ -79,6 +94,9 @@ public class RoomItemManager {
         if (getItem(id) == null) {
             wallItems.put(id, new WallItem(id, x, y, rot, state, room, baseItem));
             room.sendMessage(new SerializeWallItemComposer(wallItems.get(id)));
+        } else {
+        	wallItems.put(id, new WallItem(id, x, y, rot, state, room, baseItem));
+            room.sendMessage(new SerializeWallItemComposer(wallItems.get(id)));
         }
     }
     
@@ -95,18 +113,15 @@ public class RoomItemManager {
     
     public void moveTo(int id, int x, int y, int rotation) {
     	 RoomItem item = getItem(id);
-    	 Game.changeItemPosition(id, x, y, rotation, item.getBaseItem()); 
+    	 room.getRoomItemManager().addFloorItemToRoom(id, x, y, item.getZ(), rotation, item.getState(), item.getBaseItem());
     }
     
-    // PLACING A INVENTORY ITEM (TEST)
+    // INVENTAR
     
-    public void addItemsFromInventory(int id, int x, int y, double z, int rot, int state, BaseItem baseItem) {
+    public void InventoryItem(int id, int x, int y, double z, int rot, int state, BaseItem baseItem, String type) {
     	floorItems.put(id, new RoomItem(id, x, y, z, rot, state, room, baseItem));
-   	 	room.getGameMap().addItemToMap(floorItems.get(id));
-   	 	room.getRoomUserManager().updateUserStatusses();
-   
    	 	room.getRoomItemManager().removeItem(id);
-   	 	room.sendMessage(new InventarComposer(id, baseItem.getBaseId(), 0));
+   	 	room.sendMessage(new InventarComposer(id, baseItem.getBaseId(), 0, type));
     }
     
     // REMOVE A INVENTORY ITEM
@@ -123,8 +138,15 @@ public class RoomItemManager {
     
     public void addInventoryItem(int id) {
    	 	RoomItem item = getItem(id);
-   	 	Game.addToInv(id, item.getBaseItem().getBaseId(), item.getState());
+   	 	if(item instanceof WallItem) {
+   	 		String type = "W";
+   	 		room.sendMessage(new InventarComposer(id, item.getBaseItem().getBaseId(), item.getState(), type));
+   	 	} else {
+   	 		String type = "F";
+   	 		room.sendMessage(new InventarComposer(id, item.getBaseItem().getBaseId(), item.getState(), type));
+   	 	}
     }
+  
     
     // REMOVE ITEMS
     
@@ -148,7 +170,7 @@ public class RoomItemManager {
         items.addAll(wallItems.keySet());
         for (int itemId : items) {
         	RoomItem iteme = getItem(itemId);
-        	Game.addToInv(iteme.getId(), iteme.getBaseItem().getBaseId(), iteme.getState());
+        	room.getRoomItemManager().addInventoryItem(iteme.getId());
             removeItem(itemId);
         }
     }

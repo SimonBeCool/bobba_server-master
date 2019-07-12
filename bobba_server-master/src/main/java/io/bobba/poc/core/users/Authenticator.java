@@ -15,9 +15,7 @@ public class Authenticator {
     public void tryLogin(GameClient client, String username, String look, String motto) {
         if (client.getUser() == null) {
             client.setUser(new User(nextId++, username, look, motto, client));
-            
             Logging.getInstance().writeLine(client.getUser().getUsername() + " (" + client.getUser().getId() + ") has logged in!", LogLevel.Verbose, this.getClass());
-
             client.sendMessage(new LoginOkComposer());
         } else {
             Logging.getInstance().writeLine("Client already logged!", LogLevel.Warning, this.getClass());

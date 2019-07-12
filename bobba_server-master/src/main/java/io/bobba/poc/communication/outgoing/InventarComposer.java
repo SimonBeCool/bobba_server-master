@@ -7,12 +7,12 @@ import io.bobba.poc.core.rooms.items.RoomItem;
 
 public class InventarComposer extends ServerMessage {
 	private static int count = 1;
-    public InventarComposer(int furniId,int item, int state) {
+    public InventarComposer(int furniId,int item, int state, String type) {
         super(ServerOpCodes.ITEM_INVENTAR);
         
         appendInt(count);
         appendInt(furniId);
-        appendString("F");
+        appendString(type);
         appendInt(item);
         appendInt(state);
     }

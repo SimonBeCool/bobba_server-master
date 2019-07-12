@@ -20,11 +20,6 @@ public class RequestItemPlace implements IIncomingEvent {
         int y = request.popInt();
         int rotation = request.popInt();
         
-        System.out.print(furniid);
-        System.out.print(x);
-        System.out.print(y);
-        System.out.print(rotation);
-        
         RoomUser user = client.getUser().getCurrentRoomUser();
         if (user != null){	
         	user.furniadd(furniid, x, y, rotation);

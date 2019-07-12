@@ -220,10 +220,6 @@ public class RoomUser {
     }
     
     public void furniadd(int furniid,int x,int y,int rotation) {
-    	System.out.print(furniid);
-        System.out.print(x);
-        System.out.print(y);
-        System.out.print(rotation);
             room.getRoomItemManager().addTo(furniid, x, y, rotation);
     }
     
